@@ -68,6 +68,17 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
+<script>
+    var socket = null;
+    document.addEventListener('DOMContentLoaded', () => {
+        socket = new WebSocket('ws://localhost:8080/ws');
+        socket.onopen = () => {
+            console.log("Connected to websocket");
+        }
+    });
+</script>
 
 </html>

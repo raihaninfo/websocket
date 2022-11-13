@@ -104,6 +104,10 @@ func ListenToWsChannel() {
 			users := getUserList()
 			response.ConnectedUser = users
 			broadcastToAll(response)
+		case "broadcast":
+			response.Action = "broadcast"
+			response.Message = fmt.Sprintf("<strong>%s</strong>: %s", e.UserName, e.Message)
+			broadcastToAll(response)
 		}
 
 		// response.Action = "Got hear"
@@ -115,7 +119,9 @@ func ListenToWsChannel() {
 func getUserList() []string {
 	var userList []string
 	for _, x := range clients {
-		userList = append(userList, x)
+		if x != "" {
+			userList = append(userList, x)
+		}
 	}
 	sort.Strings(userList)
 	return userList

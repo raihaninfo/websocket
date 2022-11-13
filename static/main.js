@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Error: ", err);
     };
     socket.onmessage = msg => {
-        // console.log(msg);
-        // let j = JSON.parse(msg.data);
-        // console.log(j);
         let data = JSON.parse(msg.data);
         console.log(data);
         console.log("Action: ", data.action);
@@ -45,8 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    let userInput = document.getElementById('username');
-    userInput.addEventListener('change', () => {
+    userField.addEventListener('change', () => {
         let jsonDate = {};
         jsonDate['action'] = "username";
         jsonDate['username'] = userInput.value;
@@ -85,19 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function sentMessage() {
     let jsonData = {};
     jsonData['action'] = 'broadcast';
-    jsonData['username'] = document.getElementById('username').value;
-    jsonData['message'] = document.getElementById('message').value;
+    jsonData['username'] = userField.value;
+    jsonData['message'] = messageField.value;
 
     socket.send(JSON.stringify(jsonData));
-    document.getElementById('message').value = '';
+    messageField.value = '';
 }
 
+// alert error message
 function errorMessage(msg) {
     notie.alert({
         type: 'error',
         text: msg,
-        // stay: Boolean, // optional, default = false
-        // time: Number, // optional, default = 3, minimum = 1,
-        // position: String // optional, default = 'top', enum: ['top', 'bottom']
     })
 }

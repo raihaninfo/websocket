@@ -95,17 +95,20 @@ func ListenToWsChannel() {
 			// get a list of all user
 			clients[e.Conn] = e.UserName
 			users := getUserList()
-			// fmt.Println(users)
 			response.Action = "list_users"
 			response.ConnectedUser = users
 			broadcastToAll(response)
-
+		case "left":
+			response.Action = "list_users"
+			delete(clients, e.Conn)
+			users := getUserList()
+			response.ConnectedUser = users
+			broadcastToAll(response)
 		}
 
 		// response.Action = "Got hear"
 		// response.Message = fmt.Sprintf("Some message, and action was %s", e.Action)
 		// broadcastToAll(response)
-
 	}
 }
 

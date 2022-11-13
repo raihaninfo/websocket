@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 type application struct {
 	AppName string
 	Server  Server
@@ -22,5 +24,7 @@ func main() {
 		},
 		Debug: true,
 	}
+	log.Printf("Listening server on http://localhost:%v", app.Server.Port)
+	go ListenToWsChannel()
 	app.ListenAndServe()
 }

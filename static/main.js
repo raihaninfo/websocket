@@ -21,8 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     socket.onmessage = msg => {
         let data = JSON.parse(msg.data);
-        console.log(data);
-        console.log("Action: ", data.action);
         switch (data.action) {
             case "list_users":
                 let ul = document.getElementById("online_users");
@@ -42,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    userField.addEventListener('change', () => {
+    let userInput = document.getElementById('username');
+    userInput.addEventListener('change', () => {
         let jsonDate = {};
         jsonDate['action'] = "username";
         jsonDate['username'] = userInput.value;
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             event.stopPropagation();
             if ((userField.value === '') || (messageField.value === '')) {
-                errorMessage('Please enter your name');
+                errorMessage('Please enter your name and message');
                 return false;
             } else {
                 sentMessage();
@@ -69,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('sendBtn').addEventListener('click', () => {
         if ((userField.value === '') || (messageField.value === '')) {
-            errorMessage('Please enter your name');
+            errorMessage('Please enter your name and message');
             return false;
         } else {
             sentMessage();
@@ -81,14 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function sentMessage() {
     let jsonData = {};
     jsonData['action'] = 'broadcast';
-    jsonData['username'] = userField.value;
-    jsonData['message'] = messageField.value;
+    jsonData['username'] = document.getElementById('username').value;
+    jsonData['message'] = document.getElementById('message').value;
 
     socket.send(JSON.stringify(jsonData));
-    messageField.value = '';
+    document.getElementById('message').value = '';
 }
 
-// alert error message
 function errorMessage(msg) {
     notie.alert({
         type: 'error',
